@@ -15,10 +15,9 @@ const myPath = path.join(__dirname, 'files');
     },
   );
   fs.readdir(path.join(__dirname, 'files'), (err, files) => {
-    if (err) console.log(err);
+    if (err) throw err;
     else {
       const currentPath = path.join(__dirname, 'filies-copy');
-      console.log(currentPath);
       files.forEach((file) => {
         fs.copyFile(
           path.join(myPath, file),
@@ -29,7 +28,19 @@ const myPath = path.join(__dirname, 'files');
             console.log('Copied');
           },
         );
-      });
+      });   
+      fs.readdir((currentPath), (err, files)=>{
+        files.forEach((file)=>{
+          fs.stat(path.join(myPath, file), (err, stats) =>{
+            if(err){
+              fs.unlink(path.join(currentPath, `${file}`), (err) => {
+                if (err) throw err;
+                console.log('Deleted');
+              });
+            }
+           });
+        });  
+      }); 
     }
   });
 })();
