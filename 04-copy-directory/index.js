@@ -38,6 +38,7 @@ const myPath = path.join(__dirname, 'files');
                 console.log('Deleted');
               });
             }
+            
            });
         });  
       }); 
